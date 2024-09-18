@@ -1,27 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light" data-menu-styles="dark" data-toggled="close">
 
 <head>
 
-    <meta charset="utf-8">
+    <!-- Meta Data -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <meta name="csrf-token" content="{{csrf_token()}}">
+    <title> Eonsweb Admin - @yield('title','Dashboard') </title>
+    <meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+    <meta name="Author" content="Spruko Technologies Private Limited">
+	<meta name="keywords" content="admin,admin dashboard,admin panel,admin template,bootstrap,clean,dashboard,flat,jquery,modern,responsive,premium admin templates,responsive admin,ui,ui kit.">
 
-    <title>Eonsweb Admin - @yield('title','Dashboard')</title>
+    <!-- Favicon -->
+    <link rel="icon" href="{{ asset('admin/assets/images/brand-logos/favicon.ico') }}" type="image/x-icon">
 
-    <!-- Custom fonts for this template-->
-    <link href="{{asset('admin/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <!-- Choices JS -->
+    <script src="{{ asset('admin/assets/libs/choices.js/public/assets/scripts/choices.min.js') }}"></script>
 
-    <!-- Custom styles for this template-->
-    <link href="{{asset('admin/css/sb-admin-2.min.css')}}" rel="stylesheet">
-    <link href="{{asset('admin/css/iziToast.min.css')}}" rel="stylesheet">
+    <!-- Main Theme Js -->
+    <script src="{{ asset('admin/assets/js/main.js') }}"></script>
+
+    <!-- Bootstrap Css -->
+    <link id="style" href="{{ asset('admin/assets/libs/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" >
+
+    <!-- Style Css -->
+    <link href="{{ asset('admin/assets/css/styles.min.css') }}" rel="stylesheet" >
+
+    <!-- Icons Css -->
+    <link href="{{ asset('admin/assets/css/icons.css') }}" rel="stylesheet" >
+
+    <!-- Node Waves Css -->
+    <link href="{{ asset('admin/assets/libs/node-waves/waves.min.css') }}" rel="stylesheet" >
+
+    <!-- Simplebar Css -->
+    <link href="{{ asset('admin/assets/libs/simplebar/simplebar.min.css') }}" rel="stylesheet" >
+
+    <!-- iziToast Css -->
+    <link href="{{ asset('admin/assets/css/iziToast.min.css') }}" rel="stylesheet" >
+
+    <!-- Color Picker Css -->
+    <link rel="stylesheet" href="{{ asset('admin/assets/libs/flatpickr/flatpickr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/assets/libs/@simonwep/pickr/themes/nano.min.css') }}">
+
+    <!-- Choices Css -->
+    <link rel="stylesheet" href="{{ asset('admin/assets/libs/choices.js/public/assets/styles/choices.min.css') }}">
+
 
 </head>
 
-<body id="page-top">
+<body>

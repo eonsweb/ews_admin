@@ -18,20 +18,19 @@ class AdminAuthController extends Controller
 {
     
 
-
-    public function index()
+    public function AdminLogin()
     {
         return view('admin.auth.login');
     }
 
-    public function login(Request $request)
+    public function AdminLoginSubmit(Request $request)
     {
         $credentials = $request->validate([
-            'username' => ['required'],
-            'password' => ['required']
+            'username' => 'required',
+            'password' => 'required'
         ]);
 
-        if(auth::guard('admin')->attempt($credentials)){
+        if(Auth::guard('admin')->attempt($credentials)){
 
             return redirect()->route('admin.dashboard')->with('success','Login is successful');
         }else{
@@ -39,12 +38,12 @@ class AdminAuthController extends Controller
         }
     }
 
-    public function forget_password()
+    public function ForgetPassword()
     {
         return view('admin.auth.forget_password');
     }
 
-    public function forget_password_submit(Request $request){
+    public function ForgetPasswordSubmit(Request $request){
        
         $request->validate([
             'email' => ['required','email']
@@ -65,14 +64,14 @@ class AdminAuthController extends Controller
         $message = "To reset password, please click on the link below:<br>";
         $message .= "<a href='".$reset_link."'> Click Here </a>";
 
-        \Mail::to($request->email)->send(new Websitemail($subject,$message));
+        Mail::to($request->email)->send(new Websitemail($subject,$message));
 
         return redirect()->back()
             ->with('success','We have sent a password reset link to your email. Please check you email. If you do not find the mail in your inbox, please check your spam folder.');
 
     }
 
-    public function reset_password($token,$email){
+    public function ResetPassword($token,$email){
         $admin = AdminUser::where('email',$email)->where('remember_token',$token)->first();
        
 
@@ -82,7 +81,7 @@ class AdminAuthController extends Controller
         return view('admin.auth.reset_password_form',['email'=>$email,'token'=>$token]);
     }
 
-    public function reset_password_form(Request $request){
+    public function ResetPasswordSubmit(Request $request){
         $request->validate([
             'password' => 'required',
             'confirm_password' => 'required|same:password',
@@ -96,8 +95,8 @@ class AdminAuthController extends Controller
         return redirect()->route('admin.login')->with('success','Password Ressetted');
     }
 
-    public function logout(){
-        auth::guard('admin')->logout();
+    public function Logout(){
+        Auth::guard('admin')->logout();
         return redirect()->route('admin.login')->with('success','Logout successful');
     }
 

@@ -1,54 +1,71 @@
 @include('admin.layout.head')
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+    <!-- Start Switcher -->
+    @include('admin.layout.switcher')
+    <!-- End Switcher -->
 
-        <!-- Sidebar -->
-        @include('admin.layout.sidebar')
-        <!-- End of Sidebar -->
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+    <!-- Loader -->
+    @include('admin.layout.loader')
+    <!-- Loader -->
 
-            <!-- Main Content -->
-            <div id="content">
+    <div class="page">
+         <!-- app-header -->
+         @include('admin.layout.appheader')
+        <!-- /app-header -->
+        <!-- Start::app-sidebar -->
+            @include('admin.layout.sidebar')
+        <!-- End::app-sidebar -->
 
-                <!-- Topbar -->
-                @include('admin.layout.topnav')
-                <!-- End of Topbar -->
+        <!-- Start::app-content -->
+        <div class="main-content app-content">
+            <div class="container-fluid">
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">@yield('heading')</h1>
-
-                    <!-- Content Here-->
-                        @yield('main_content')
-                    <!-- End of Content Here-->
-
+                <!-- Page Header -->
+                <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
+                    <h1 class="page-title fw-semibold fs-18 mb-0">@yield('page-heading','Empty')</h1>
+                    <div class="ms-md-1 ms-0">
+                        <nav>
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item"><a href="javascript:void(0);">@yield('breadcrumb-item','Dashboard')</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">@yield('breadcrumb-item','')</li>
+                            </ol>
+                        </nav>
+                    </div>
                 </div>
-                <!-- /.container-fluid -->
+                <!-- Page Header Close -->
+
+                <!-- Start::row-1 -->
+                <div class="row">
+                    @yield('main-content')
+                </div>
+                <!--End::row-1 -->
 
             </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            @include('admin.layout.footer')
-            <!-- End of Footer -->
-
+            <!-- Content Here-->
+            @yield('main_content')
+            <!-- End of Content Here-->
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End::app-content -->
+
+        
+        <!--Search Modal Popup-->
+            @include('admin.layout.search_modal_popup')
+        <!--Search Modal Popup-->
+
+
+        
+
+        <!-- Footer Start -->
+            @include('admin.layout.footer')
+        <!-- Footer End -->
 
     </div>
-    <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
     
-@include('admin.layout.logout_modal')
-@include('admin.layout.scripts')
+    <!-- Scroll To Top -->
+    @include('admin.layout.scroll_top')
+    <!-- Scroll To Top -->
+
+    {{-- Script --}}
+    @include('admin.layout.script')

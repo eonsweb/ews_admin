@@ -1,62 +1,58 @@
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<aside class="app-sidebar sticky" id="sidebar">
 
-    <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        {{-- <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
-        </div> --}}
-        <div class="sidebar-brand-text mx-3">EONSWEB ADMIN</div>
-    </a>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
-
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item {{ Route::currentRouteName() == 'admin.dashboard' ? 'active' : '' }}">
-        <a class="nav-link" 
-           href="{{ route('admin.dashboard') }}">
-            <i class="fas fa-fw fa-tachometer-alt "></i>
-            <span>Dashboard</span>
+    <!-- Start::main-sidebar-header -->
+    <div class="main-sidebar-header">
+        <a href="index.html" class="header-logo">
+            <img src="{{ asset('admin/assets/images/brand-logos/desktop-logo.png') }}" alt="logo" class="desktop-logo">
+            <img src="{{ asset('admin/assets/images/brand-logos/toggle-logo.png') }}" alt="logo" class="toggle-logo">
+            <img src="{{ asset('admin/assets/images/brand-logos/desktop-dark.png') }}" alt="logo" class="desktop-dark">
+            <img src="{{ asset('admin/assets/images/brand-logos/toggle-dark.png') }}" alt="logo" class="toggle-dark">
+            <img src="{{ asset('admin/assets/images/brand-logos/desktop-white.png') }}" alt="logo" class="desktop-white">
+            <img src="{{ asset('admin/assets/images/brand-logos/toggle-white.png') }}" alt="logo" class="toggle-white">
         </a>
-    </li>
+    </div>
+    <!-- End::main-sidebar-header -->
 
-    
+    <!-- Start::main-sidebar -->
+    <div class="main-sidebar" id="sidebar-scroll">
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Settings</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                
-                <a class=" collapse-item {{ Route::currentRouteName() == 'admin.users' ? 'active' : ''}}" href="{{ route('admin.users') }} ">Users</a>
-                <a class="collapse-item {{ Route::currentRouteName() == 'admin.role.list' ? 'active' : ''}}" href="{{ route('admin.role.list') }}">Roles</a>
-                <a class="collapse-item {{ Route::currentRouteName() == 'admin.permission.list' ? 'active' : ''}}" href="{{ route('admin.permission.list') }}">Permission</a>
-                <a class="collapse-item" href="cards.html">Operation Log</a>
+        <!-- Start::nav -->
+        <nav class="main-menu-container nav nav-pills flex-column sub-open">
+            <div class="slide-left" id="slide-left">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"> <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path> </svg>
             </div>
-        </div>
-    </li>
+            <ul class="main-menu">
+                <!-- Start::slide__category -->
+                <li class="slide__category"><span class="category-name">Main</span></li>
+                <!-- End::slide__category -->
+
+                <!-- Start::slide -->
+                <li class="slide has-sub">
+                    <a href="javascript:void(0);" class="side-menu__item">
+                        <i class="bx bx-home side-menu__icon"></i>
+                        <span class="side-menu__label">Dashboards<span class="badge bg-warning-transparent ms-2">12</span></span>
+                        <i class="fe fe-chevron-right side-menu__angle"></i>
+                    </a>
+                    <ul class="slide-menu child1">
+                        <li class="slide side-menu__label1">
+                            <a href="javascript:void(0)">Dashboards</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                <!-- End::slide -->
+
+                
 
     
 
-    
-    
+              
+            </ul>
+            <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"> <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path> </svg></div>
+        </nav>
+        <!-- End::nav -->
 
-    
+    </div>
+    <!-- End::main-sidebar -->
 
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
-
-    <!-- Sidebar Toggler (Sidebar) -->
-    {{-- <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div> --}}
-
-</ul>
+</aside>

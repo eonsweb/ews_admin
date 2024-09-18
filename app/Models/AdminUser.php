@@ -11,13 +11,8 @@ class AdminUser extends Authenticatable
 {
     use HasFactory,Notifiable;
 
-    protected $fillable = [
-        'name',
-        'username',
-        'email',
-        'password',
-        'photo',
-    ];
+    protected $guard = 'admin';
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -27,6 +22,14 @@ class AdminUser extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
     
 
 }
