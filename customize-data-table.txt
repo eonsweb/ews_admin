@@ -1,0 +1,85 @@
+ // file export datatable customization
+$("#file-export").DataTable({
+        dom: "Bfrtip",
+        buttons: [
+            {
+                text: '<i class="bi bi-download"></i> Export &nbsp;',
+                className: "btn btn-sm btn-secondary mb-2 dropdown-toggle", // Make the main button look like a dropdown toggle
+                action: function (e, dt, button, config) {
+                    let $button = $(button);
+
+                    // Remove any existing dropdown menus to prevent multiple dropdowns
+                    $(".dropdown-menu").remove();
+
+                    // Create dropdown menu structure for Bootstrap
+                    let menu = $(`
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" data-export="copy" href="#"><i class="bi bi-files"></i> Copy</a>
+                            <a class="dropdown-item" data-export="csv" href="#"><i class="bi bi-file-earmark-spreadsheet"></i> CSV</a>
+                            <a class="dropdown-item" data-export="excel" href="#"><i class="bi bi-file-earmark-excel"></i> Excel</a>
+                            <a class="dropdown-item" data-export="pdf" href="#"><i class="bi bi-file-earmark-pdf"></i> PDF</a>
+                            <a class="dropdown-item" data-export="print" href="#"><i class="bi bi-printer"></i> Print</a>
+                        </div>
+                    `);
+
+                    // Toggle the dropdown visibility
+                    $button.after(menu);
+                    menu.toggle();
+
+                    // Add event listeners for export actions
+                    menu.find(".dropdown-item").on("click", function (e) {
+                        e.preventDefault();
+                        let exportType = $(this).data("export");
+
+                        // Trigger respective export action
+                        switch (exportType) {
+                            case "copy":
+                                dt.button(".buttons-copy").trigger();
+                                break;
+                            case "csv":
+                                dt.button(".buttons-csv").trigger();
+                                break;
+                            case "excel":
+                                dt.button(".buttons-excel").trigger();
+                                break;
+                            case "pdf":
+                                dt.button(".buttons-pdf").trigger();
+                                break;
+                            case "print":
+                                dt.button(".buttons-print").trigger();
+                                break;
+                        }
+
+                        // Close dropdown after clicking an item
+                        menu.remove();
+                    });
+
+                    // Close dropdown if clicked outside
+                    $(document).on("click", function (event) {
+                        if (
+                            !$(event.target).closest($button).length &&
+                            !$(event.target).closest(menu).length
+                        ) {
+                            menu.remove(); // Close the dropdown if clicked outside
+                        }
+                    });
+
+                    // Close dropdown if button is clicked again
+                    $button.on("click", function () {
+                        menu.remove(); // Close the dropdown when toggle button is clicked again
+                    });
+                },
+            },
+            { extend: "copy", className: "d-none" }, // Hide these since they'll be manually triggered
+            { extend: "csv", className: "d-none" },
+            { extend: "excel", className: "d-none" },
+            { extend: "pdf", className: "d-none" },
+            { extend: "print", className: "d-none" },
+        ],
+        language: {
+            searchPlaceholder: "Search...",
+            sSearch: "",
+        },
+    });
+
+    //End of file export datatable

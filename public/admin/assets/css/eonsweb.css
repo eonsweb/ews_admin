@@ -1,0 +1,14 @@
+.btn-primary.dropdown-toggle::after {
+    display: none; /* Hide the default caret */
+}
+
+.btn-primary.dropdown-toggle {
+    padding-right: 1.5rem; /* Optional: Adjust padding if needed */
+}
+.btn-primary.dropdown-toggle::after {
+    display: none; /* Hide the default caret */
+}
+
+.btn-primary.dropdown-toggle {
+    padding-right: 1.5rem; /* Optional: Adjust padding if needed */
+}

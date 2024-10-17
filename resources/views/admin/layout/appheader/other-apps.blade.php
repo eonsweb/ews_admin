@@ -59,7 +59,7 @@
                     <a href="javascript:void(0);">
                         <div class="text-center p-3 related-app">
                             <span class="avatar avatar-sm avatar-rounded">
-                                <img src="{{ asset('admin//images/apps/sketch.png')}}" alt="">
+                                <img src="{{ asset('admin/assets/images/apps/sketch.png')}}" alt="">
                             </span>
                             <span class="d-block fs-12">Sketch</span>
                         </div>
@@ -175,7 +175,7 @@
                     <a href="javascript:void(0);">
                         <div class="text-center p-3 related-app">
                             <span class="avatar avatar-sm avatar-rounded">
-                                <img src="{{ asset('admin//images/apps/sketch.png')}}" alt="">
+                                <img src="{{ asset('admin/assets/images/apps/sketch.png')}}" alt="">
                             </span>
                             <span class="d-block fs-12">Sketch</span>
                         </div>
