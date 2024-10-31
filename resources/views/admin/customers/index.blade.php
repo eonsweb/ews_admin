@@ -50,6 +50,7 @@
                                         <th style="width: 10%;">#</th>
                                         <th>Name</th>
                                         <th>Phone no.</th>
+                                        <th>Address</th>
                                         <th>ID Type</th>
                                         <th>ID Number</th>
                                         <th style="width: 10%;"><i class='bx bxs-bolt'></i>Action</th>
@@ -59,11 +60,12 @@
                                 <tbody>
                                     @foreach ($customers as $key => $customer)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
+                                            <td>{{ $customer->id }}</td>
                                             <td><a href="{{route('admin.customer.show',$customer->id)}}">{{ $customer->name }}</a></td>
-                                            <td>{{ $customer->phone }}</td>
-                                            <td>{{ $customer->id_type ?? 'N/A' }}</td>
-                                            <td>{{ $customer->id_number ?? 'N/A' }}</td>
+                                            <td class="text-primary">{{ $customer->phone }}</td>
+                                            <td>{{ $customer->address }}</td>
+                                            <td>{{ $customer->id_type ?: 'N/A' }}</td>
+                                            <td>{{ $customer->id_number ?: 'N/A' }}</td>
                                             <td><a href="{{ route('admin.customer.edit', $customer->id) }}"
                                                     class="btn btn-icon rounded-pill btn-sm  btn-success"
                                                     data-bs-toggle="modal"
@@ -108,8 +110,15 @@
 @if (session('modal') || $errors->any())
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var modal = new bootstrap.Modal(document.getElementById('customerNewModal'));
-            modal.show();
+            @if(session('modal') == 'customerNewModal')
+                var modal = new bootstrap.Modal(document.getElementById('customerNewModal'));
+                console.log('new customer')
+                modal.show();
+            @elseif(session('modal') == 'customerImportModal')
+                var modal = new bootstrap.Modal(document.getElementById('customerImportModal'));
+                console.log('import customer')
+                modal.show();
+            @endif
         });
     </script>
 @endif

@@ -36,16 +36,28 @@
             </div>
 
             <!-- Session Alert Message Display -->
-            @if (session('type' == 'success'))
-                <div class="alert alert-solid-success alert-dismissible fs-15 fade show mb-4">
+            @if (session('type') == 'success')
+                <div id="flash-message" class="alert alert-solid-success alert-dismissible fs-15 fade show mb-4">
                     {!! session('message') !!}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                         <i class="bi bi-x"></i>
                     </button>
                 </div>
-            @elseif( 'type' == 'erorr')
-                <div class="alert alert-solid-danger alert-dismissible fs-15 fade show mb-4">
+            @elseif( session('type') == 'error')
+                <div id="flash-message" class="alert alert-solid-danger alert-dismissible fs-15 fade show mb-4">
                     {!! session('message') !!}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </div>
+            @endif
+
+            @if(session('importErrors'))
+                <div id="flash-message" class="alert alert-solid-danger alert-dismissible fs-15 fade show">
+                    
+                        @foreach(session('importErrors') as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                         <i class="bi bi-x"></i>
                     </button>
@@ -96,3 +108,4 @@
 
 {{-- Script --}}
 @include('admin.layout.script')
+

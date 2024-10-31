@@ -6,11 +6,11 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\AgentController;
+use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\AgreementController;
 use App\Http\Controllers\Admin\PaymentController;
-use App\Models\Payment;
+use App\Http\Controllers\Admin\DashboardController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -45,7 +45,7 @@ Route::prefix('admin')->group(function () {
 Route::middleware('admin')
     ->prefix('admin')
     ->group(function () {
-        Route::get('/dashboard', [AdminUserController::class, 'AdminDashboard'])->name('admin.dashboard');
+        // Route::get('/dashboard', [AdminUserController::class, 'AdminDashboard'])->name('admin.dashboard');
         Route::get('/logout', [AdminAuthController::class, 'Logout'])->name('admin.logout');
         Route::get('/profile', [AdminUserController::class, 'Profile'])->name('admin.profile');
         Route::patch('/profile', [AdminUserController::class, 'ProfileUpdate'])->name('admin.profile.update');
@@ -54,6 +54,10 @@ Route::middleware('admin')
     });
     
     Route::middleware(['admin'])->prefix('admin')->group(function(){
+
+        Route::controller(DashboardController::class)->group(function(){
+            Route::get('/dashboard','AdminDashboard')->name('admin.dashboard');
+        });
 
         Route::controller(CategoryController::class)->group(function () {
             Route::get('/categories', 'AllCategories')->name('admin.categories');
@@ -66,14 +70,14 @@ Route::middleware('admin')
             Route::get('/categories/import','ImportCategories')->name('admin.categories.import');
             Route::post('/categories/import/store', 'StoreImportedCategories')->name('admin.categories.import.store');
         });
-        Route::controller(AgentController::class)->group(function () {
-            Route::get('/agents', 'AllAgents')->name('admin.agents');
-            Route::get('/agent/add', 'AddAgent')->name('admin.agent.add');
-            Route::post('/agent/store', 'StoreAgent')->name('admin.agent.store');
-            Route::get('/agent/{id}/edit', 'EditAgent')->name('admin.agent.edit');
-            Route::get('/agent/{id}/show', 'ShowAgent')->name('admin.agent.show');
-            Route::patch('/agent/{id}/update', 'UpdateAgent')->name('admin.agent.update');
-            Route::get('/agent/{id}/delete', 'DeleteAgent')->name('admin.agent.delete');
+        Route::controller(EmployeeController::class)->group(function () {
+            Route::get('/employees', 'AllEmployees')->name('admin.employees');
+            Route::get('/employee/add', 'AddEmployee')->name('admin.employee.add');
+            Route::post('/employee/store', 'StoreEmployee')->name('admin.employee.store');
+            Route::get('/employee/{id}/edit', 'EditEmployee')->name('admin.employee.edit');
+            Route::get('/employee/{id}/show', 'ShowEmployee')->name('admin.employee.show');
+            Route::patch('/employee/{id}/update', 'UpdateEmployee')->name('admin.employee.update');
+            Route::get('/employee/{id}/delete', 'DeleteEmployee')->name('admin.employee.delete');
 
         });
 
@@ -108,6 +112,7 @@ Route::middleware('admin')
             Route::get('/agreement/{id}/show', 'ShowAgreement')->name('admin.agreement.show');
             Route::patch('/agreement/{id}/update', 'UpdateAgreement')->name('admin.agreement.update');
             Route::get('/agreement/{id}/delete', 'DeleteAgreement')->name('admin.agreement.delete');
+
         });
         Route::controller(PaymentController::class)->group(function () {
             Route::get('/payments', 'AllPayments')->name('admin.payments');
@@ -117,5 +122,13 @@ Route::middleware('admin')
             Route::get('/payment/{id}/show', 'ShowPayment')->name('admin.payment.show');
             Route::patch('/payment/{id}/update', 'UpdatePayment')->name('admin.payment.update');
             Route::get('/payment/{id}/delete', 'DeletePayment')->name('admin.payment.delete');
+
+            Route::get('/payment/records', 'PaymentRecords')->name('admin.payment.records');
+
+            Route::get('/payment/customer-transactions/{customerId}', 'GetAgreements')->name('admin.agreement.customer-transactions');
         });
+
+        
     });
+
+    // Route::get('/dashboard', [AdminUserController::class, 'AdminDashboard'])->name('admin.dashboard');

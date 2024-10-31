@@ -21,10 +21,14 @@
                     <div class="mb-3">
                         <label for="categoryName" class="form-label">Category Name</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="categoryName"
-                            name="name" value="{{ $category->name }}" required>
+                            name="name" value="{{ $category->name }}" value="{{old($category->name)}}" required>
                         @error('name')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Category Description</label>
+                        <textarea name="description" id="description" class="form-control" cols="30" rows="3">{{$category->description}}</textarea>
                     </div>
 
 

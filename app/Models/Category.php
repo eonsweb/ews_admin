@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at'  => 'datetime'
+    ];
+    
     protected $fillable = ['name', 'description'];
 
     public function products(){

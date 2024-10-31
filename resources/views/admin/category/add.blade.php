@@ -13,7 +13,7 @@
                     <div class="mb-3">
                         <label for="categoryName" class="form-label">Category Name</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="categoryName"
-                            name="name" required>
+                            name="name">
                         @error('name')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror

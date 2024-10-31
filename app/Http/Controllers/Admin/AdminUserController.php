@@ -8,6 +8,9 @@ use App\Models\AdminUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+use App\Models\Agreement;
+use Carbon\Carbon;
+
 
 class AdminUserController extends Controller
 {
@@ -17,14 +20,18 @@ class AdminUserController extends Controller
     public function index()
     {
         $admin_users = AdminUser::get();
+
+        $salesPerMonth =  Agreement::whereYear('start_date', Carbon::now()->year)
+        ->whereMonth('start_date', Carbon::now()->month)
+        ->sum('principal');
+
+        dd($salesPerMonth);
+
         return view('admin.users.index',compact(['admin_users']));
     }
 
 
-    public function AdminDashboard()
-    {
-        return view('admin.dashboard');
-    }
+    
 
     public function Profile()
     {

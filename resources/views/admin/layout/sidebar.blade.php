@@ -47,14 +47,22 @@
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
                         <i class='bx bx-money-withdraw side-menu__icon'></i>
-                        Hire Purchase
+                        
+                        <span class="side-menu__label">Hire Purchase</span>
+
                         <i class="fe fe-chevron-right side-menu__angle"></i></a>
-                    <ul class="slide-menu child2">
+                    <ul class="slide-menu child1 mega-menu">
+                        <li class="slide side-menu__label1">
+                            <a href="javascript:void(0)">Hire Purchase</a>
+                        </li>
                         <li class="slide">
                             <a href="{{ route('admin.agreements') }}" class="side-menu__item">Agreement</a>
                         </li>
                         <li class="slide">
-                            <a href="{{ route('admin.payments') }}" class="side-menu__item">Payment</a>
+                            <a href="{{ route('admin.payments') }}" class="side-menu__item">Daily Payments</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{{ route('admin.payment.records') }}" class="side-menu__item"> Payment Records</a>
                         </li>
                     </ul>
                 </li>
@@ -62,7 +70,8 @@
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
                         <i class='bx bxs-bank side-menu__icon'></i>
-                        SUSU Collection
+                        <span class="side-menu__label">SUSU Collection</span>
+                        
                         <i class="fe fe-chevron-right side-menu__angle"></i></a>
                     <ul class="slide-menu child2">
                         <li class="slide">
@@ -74,11 +83,11 @@
                     </ul>
                 </li>
                 <li class="slide">
-                    <a href="{{route('admin.agents')}}"
-                        class="side-menu__item {{ Route::currentRouteName() === 'admin.agents' ? 'active' : ''}}">
+                    <a href="{{route('admin.employees')}}"
+                        class="side-menu__item {{ Route::currentRouteName() === 'admin.employees' ? 'active' : ''}}">
                         
                         <i class="bx bx-user side-menu__icon"></i>
-                        <span class="side-menu__label">Sales Agent</span>
+                        <span class="side-menu__label">Employee</span>
                     </a>
                 </li>
                 <li class="slide">

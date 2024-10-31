@@ -1,10 +1,10 @@
 @extends('admin.app')
 
-@section('title', 'Product')
+@section('title', 'Payments')
 
-@section('page-heading', 'Products')
-@section('breadcrumb-item', 'Product')
-@section('breadcrumb-active', 'Product')
+@section('page-heading', 'Hire Purchase Payments')
+@section('breadcrumb-item', 'Hire Purchase')
+@section('breadcrumb-active', 'Payments')
 
 @push('styles')
     <!-- Datatable -->
@@ -15,13 +15,16 @@
     <!-- Select2 -->
     {{-- <link rel="stylesheet" href="{{ asset('admin/assets/css/select2.min.css') }} "> --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+    {{-- Date Picker --}}
+    <link rel="stylesheet" href="{{asset('admin/assets/libs/flatpickr/flatpickr.min.css')}}">
 @endpush
 
 
 @section('main-content')
     <div class="container-fluid">
 
-       
+
 
         <!-- Start::row-1 -->
         <div class="row">
@@ -30,18 +33,16 @@
                 <div class="card custom-card">
                     <div class="card-header">
                         <div class="card-title">
-                            Number of Products: <span class="text-danger">{{ $products->count() }}</span>
+                        Total No. of Payments: <span class="text-primary">{{ $payments->count() }}</span>
+                        
+                        <a href="{{ route('admin.payment.add') }}" class="btn btn-secondary btn-sm ms-5"><i class='bx bx-plus'></i>New
+                            Payment
+                        </a>
                         </div>
                         <div class=" ms-auto">
-                            <a href="{{ route('admin.product.add') }}" class="btn btn-secondary btn-sm"
-                                data-bs-toggle="modal" data-bs-target="#productNewModal"><i class='bx bx-plus'></i>New
-                                Product
-                            </a>
-
-                            <!-- Import Excel or Csv File data -->
-                            <a href="{{ route('admin.products.import') }}" class="btn btn-success btn-sm"
-                                data-bs-toggle="modal" data-bs-target="#productImportModal"><i
-                                    class="bi bi-file-earmark-excel"></i> Import From Excel
+                            <a href="{{ route('admin.agreements') }}" class="btn btn-primary btn-sm ms-5">
+                                <i class='bx bx-arrow-back'></i>
+                                Agreements
                             </a>
                         </div>
 
@@ -53,25 +54,27 @@
                                     <tr>
 
                                         <th style="width: 5%;">
-                                            #
+                                            <h6 class="text-light">#</h6>
                                         </th>
                                         <th>
-                                          Product Name
+                                            <h6 class="text-dark">Payment ID</h6>
                                         </th>
                                         <th>
-                                            Category
+                                            <h6 class="text-dark">Customer Info</h6>
                                         </th>
                                         <th>
-                                            Sale Price (GH₵)
+                                            <h6 class="text-dark">Amt Paid(GH₵)</h6>
                                         </th>
                                         <th>
-                                            Stock Price (GH₵)
+                                            <h6 class="text-dark">Total Paid(GH₵)</h6>
+                                        </th>
+                                        
+                                        <th>
+                                            <h6 class="text-dark">Employee</h6>
                                         </th>
                                         <th>
-                                            <h6 class="text-dark " style="transform: scale(1.2);"><i
-                                                    class="bi bi-percent"></i></h6>
+                                            <h6 class="text-dark">Date</h6>
                                         </th>
-                                        <th>Profit</th>
 
 
                                         <th style="width: 10%;">
@@ -81,42 +84,36 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($products as $key => $product)
+                                    @foreach ($payments as $key => $payment)
                                         <tr>
-                                            <td>{{ $product->id }}</td>
+                                            <td>{{ $key + 1 }}</td>
                                             <td>
-                                                <h6 class="h6">{{ $product->name }}</h6>
+                                                <h6 class="h6">{{ $payment->agreement->transaction_id }}</h6>
                                             </td>
-                                            <td><span
-                                                    class="badge bg-light text-default">{{ $product->category->name }}</span>
-                                            </td>
-                                            <td>{{ number_format($product->sale_price, 2) }}</td>
+                                            
+                                            <td>{{$payment->customer->name}}</td>
+                                            <td class="text-success">GH₵ {{ number_format($payment->amount_paid, 2) }}</td>
+                                            <td class="text-danger">GH₵ {{ number_format($payment->cumulative_total_paid, 2) }}</td>
                                             <td>
-                                                {{ $product->stock_price != 0 ? number_format($product->stock_price, 2) : 'N/A' }}
+                                               {{$payment->employee->name}}
                                             </td>
-                                            <td>
-                                                {{ $product->stock_price != 0 ? 
-                                                number_format((($product->sale_price - $product->stock_price)/$product->stock_price),2 )* 100 . '%'
-                                                 : 'N/A' }}
-                                            </td>
-                                            <th> {{ $product->stock_price != 0 ? ($product->sale_price - $product->stock_price) : 'N/A' }}
-                                            </th>
+                                            <th>{{ \Carbon\Carbon::parse($payment->created_at)->format('Y-m-d') }}</th>
 
-                                            <td><a href="{{ route('admin.product.edit', $product->id) }}"
-                                                    class="btn btn-icon rounded-pill btn-sm  btn-success-transparent"
+                                            <td><a href="{{ route('admin.payment.edit', $payment->id) }}"
+                                                    class="btn btn-icon rounded-pill btn-sm  btn-success"
                                                     data-bs-toggle="modal"
-                                                    data-bs-target="#productEditModal-{{ $product->id }}"
-                                                    data-id="{{ $product->id }}"
-                                                    data-category-id="{{ $product->category_id }}" aria-hidden="true">
+                                                    data-bs-target="#paymentEditModal-{{ $payment->id }}"
+                                                    data-id="{{ $payment->id }}"
+                                                    data-category-id="{{ $payment->category_id }}" aria-hidden="true">
                                                     <i class="bi bi-pencil-square"></i></a>
 
-                                                <a href="{{ route('admin.product.delete', $product->id) }}"
-                                                    class="btn btn-icon rounded-pill btn-sm  btn-danger-transparent"><i
+                                                <a href="{{ route('admin.payment.delete', $payment->id) }}"
+                                                    class="btn btn-icon rounded-pill btn-sm  btn-danger"><i
                                                         class="bi bi-trash-fill"></i>
                                                 </a>
                                             </td>
-                                            <!-- Include the modal with a unique ID for each product -->
-                                            @include('admin.product.edit', ['product' => $product])
+                                            <!-- Include the modal with a unique ID for each payment -->
+                                            {{-- @include('admin.hire_purchase.payment.edit', ['payment' => $payment]) --}}
                                         </tr>
                                     @endforeach
 
@@ -132,32 +129,24 @@
     </div>
 
     <!-- Add Menu Modal -->
-    @include('admin.product.add')
+    {{-- @include('admin.hire_purchase.payments.add') --}}
 
-    <!-- Add Menu Modal -->
-    @include('admin.product.import')
+ 
 
 
 
 
 @endsection
 
-
+{{-- 
 @if (session('modal') || $errors->any())
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            @if(session('modal') == 'productNewModal')
-                var modal = new bootstrap.Modal(document.getElementById('productNewModal'));
-                console.log('new product')
-                modal.show();
-            @elseif(session('modal') == 'productImportModal')
-                var modal = new bootstrap.Modal(document.getElementById('productImportModal'));
-                console.log('import product')
-                modal.show();
-            @endif
+            var modal = new bootstrap.Modal(document.getElementById('paymentNewModal'));
+            modal.show();
         });
     </script>
-@endif
+@endif --}}
 
 @push('scripts')
     <!-- Jquery -->
@@ -181,31 +170,35 @@
 
     <!-- Select 2 -->
     <script src="{{ asset('admin/assets/js/select2.min.js') }}"></script>
+
+    <!-- Date & Time Picker JS -->
+    <script src="{{ asset('admin/assets/libs/flatpickr/flatpickr.min.js')}}"></script>
+    <script src="{{ asset('admin/assets/js/date&time_pickers.js')}}"></script>
     
     <script>
        
 
 
     $(document).ready(function() {
-        // New Product Modal
-        $('#productNewModal').on('shown.bs.modal', function() {
+        // New Payment Modal
+        $('#paymentNewModal').on('shown.bs.modal', function() {
             $('.js-example-basic-single').select2({
-                dropdownParent: $('#productNewModal')
+                dropdownParent: $('#paymentNewModal')
             });
         });
 
-        // Edit Product Modal
-        // Use event delegation to listen for when any product edit modal is opened
-        $(document).on('shown.bs.modal', '[id^=productEditModal-]', function(event) {
+        // Edit Payment Modal
+        // Use event delegation to listen for when any payment edit modal is opened
+        $(document).on('shown.bs.modal', '[id^=paymentEditModal-]', function(event) {
             // Get the button that triggered the modal
             var button = $(event.relatedTarget); // Button that triggered the modal
 
-            // Extract the product ID and category ID from the button
-            var productId = button.data('id');
+            // Extract the payment ID and category ID from the button
+            var paymentId = button.data('id');
             var categoryId = button.data('category-id');
 
-            // Populate the hidden input field with the product ID
-            $(this).find('#editProductId').val(productId);
+            // Populate the hidden input field with the payment ID
+            $(this).find('#editPaymentId').val(paymentId);
             
             // Set the selected category in the dropdown
             $(this).find('#editCategorySelect').val(categoryId).trigger('change'); // Set category and trigger change
@@ -216,7 +209,6 @@
             });
         });
     });
-
 
     </script>
 @endpush

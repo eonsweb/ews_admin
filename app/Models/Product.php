@@ -10,6 +10,10 @@ class Product extends Model
     use HasFactory;
     protected $guarded = [];
 
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at'  => 'datetime'
+    ];
 
     //--- Relationships ---//
     public function category()
@@ -23,7 +27,6 @@ class Product extends Model
          return $this->hasMany(Agreement::class);
      }
      
-
     //ACCESSORS
     public function getCreatedAtFormattedAttribute()
     {

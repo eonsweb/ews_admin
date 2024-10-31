@@ -26,25 +26,9 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div class="mb-3">
-                        <label for="salePrice" class="form-label">Sale Price</label>
-                        <input type="text" class="form-control @error('sale_price') is-invalid @enderror" id="salePrice"
-                            name="sale_price" value="{{ $product->sale_price }}" required>
-                        @error('sale_price')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="stockPrice" class="form-label">Stock Name</label>
-                        <input type="text" class="form-control @error('stock_price') is-invalid @enderror" id="stockPrice"
-                            name="stock_price" value="{{ $product->stock_price }}" required>
-                        @error('stock_price')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
+
                     <div class="mb-3">
                         <label for="categoryName" class="form-label">Category Name</label>
-                        <div class="card-header d-flex align-items-center justify-content-between">
                             <select class="js-example-basic-single" name="category_id" id="editCategorySelect">
                                 <option value="" disabled>Select Product's Category</option>
                                 @foreach ($categories as $category)
@@ -53,8 +37,39 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
+                            @error('category_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                     </div>
+                    
+                    <div class="mb-3">
+                        <label for="stockPrice" class="form-label">Stock Price</label>
+                        <div class="input-group">
+                            <span class="input-group-text">GH₵</span>
+                            <input type="text" class="form-control @error('stock_price') is-invalid @enderror" id="stockPrice"
+                            name="stock_price" value="{{ $product->stock_price }}">
+                        </div>
+                        
+                        @error('stock_price')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="salePrice" class="form-label">Sale Price</label>
+                        <div class="input-group">
+                            <span class="input-group-text">GH₵</span>
+                            <input type="text" class="form-control @error('sale_price') is-invalid @enderror" id="salePrice"
+                            name="sale_price" value="{{ $product->sale_price }}">
+                        </div>
+                        @error('sale_price')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    
+                    
+                    
 
 
                 </div>

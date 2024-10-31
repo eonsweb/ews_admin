@@ -5,15 +5,15 @@
         <div class="modal-content">
             <form action="{{ route('admin.customer.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="modal-header">
-                    <h5 class="modal-title" id="customerNewModalLabel">Add New Customer</h5>
+                <div class="modal-header bg-success text-light">
+                    <h5 class="modal-title text-light" id="customerNewModalLabel">Add New Customer</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="customerName" class="form-label">Customer Name</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="customerName"
-                            name="name">
+                            name="name" value="{{old('name')}}">
                         @error('name')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -21,8 +21,15 @@
                     <div class="mb-3">
                         <label for="phone" class="form-label">Phone Number</label>
                         <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone"
-                            name="phone" required>
+                            name="phone" value="{{old('phone')}}" required>
                         @error('phone')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <textarea name="address" class="form-control" id="address" cols="30" rows="3"> {{ old('address') }} </textarea>
+                        @error('address')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>

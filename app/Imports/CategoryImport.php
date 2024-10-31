@@ -16,6 +16,7 @@ class CategoryImport implements ToModel, WithValidation, WithHeadingRow
     {
         // Log the row data for debugging
         Log::info('Row data:', $row);
+        $row = array_change_key_case($row, CASE_LOWER);
     
         // Check if the category name exists in the database
         if (!Category::where('name', $row['name'])->exists()) {

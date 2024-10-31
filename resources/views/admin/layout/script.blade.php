@@ -59,50 +59,62 @@
 {{-- Other global scripts --}}
 @stack('scripts')
 <script>
-    @if(Session::has('message'))
-        let type = "{{ Session::get('alert-type','info') }}";
-        let message = " {{ Session::get('message') }} ";
-        let title = "";
-        switch(type)
-        {
-            case 'info': 
-                iziToast.info({
-                    title:title,
-                    message: message,
-                    position: 'topRight',
-                    timeout:1000,
-                });
-                break;
+    
+    // @if(Session::has('message'))
+    //     let type = "{{ Session::get('alert-type','info') }}";
+    //     let message = " {{ Session::get('message') }} ";
+    //     let title = "";
+    //     switch(type)
+    //     {
+    //         case 'info': 
+    //             iziToast.info({
+    //                 title:title,
+    //                 message: message,
+    //                 position: 'topRight',
+    //                 timeout:1000,
+    //             });
+    //             break;
 
-            case 'success': 
-                iziToast.success({
-                    title:title,
-                    message: message,
-                    position: 'topRight',
-                    timeout:1000,
-                });
-                break;
+    //         case 'success': 
+    //             iziToast.success({
+    //                 title:title,
+    //                 message: message,
+    //                 position: 'topRight',
+    //                 timeout:1000,
+    //             });
+    //             break;
 
-            case 'error': 
-                iziToast.error({
-                    title:title,
-                    message: message,
-                    position: 'topRight',
-                    timeout:1000,
-                });
-                break;
+    //         case 'error': 
+    //             iziToast.error({
+    //                 title:title,
+    //                 message: message,
+    //                 position: 'topRight',
+    //                 timeout:1000,
+    //             });
+    //             break;
 
-            case 'warning': 
-                iziToast.warning({
-                    title:title,
-                    message: message,
-                    position: 'topRight',
-                    timeout:1000,
-                });
-                break;
+    //         case 'warning': 
+    //             iziToast.warning({
+    //                 title:title,
+    //                 message: message,
+    //                 position: 'topRight',
+    //                 timeout:1000,
+    //             });
+    //             break;
 
-        }
-    @endif
+    //     }
+    // @endif
+
+    // Set the timeout duration (e.g., 5000 milliseconds = 5 seconds)
+    // setTimeout(function() {
+    //     // Find the flash message element
+    //     var flashMessage = document.getElementById('flash-message');
+    //     if (flashMessage) {
+    //         // Hide the flash message by fading it out
+    //         flashMessage.classList.remove('show');
+    //     }
+    // }, 10000); // Adjust the time duration to suit your needs
+
 </script>
 
 </body>
