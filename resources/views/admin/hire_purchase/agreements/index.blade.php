@@ -17,7 +17,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
     {{-- Date Picker --}}
-    <link rel="stylesheet" href="{{asset('admin/assets/libs/flatpickr/flatpickr.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('admin/assets/libs/flatpickr/flatpickr.min.css') }}">
 @endpush
 
 
@@ -33,17 +33,19 @@
                 <div class="card custom-card">
                     <div class="card-header">
                         <div class="card-title">
-                            
+
                             Number of Agreements: <span class="text-danger">{{ $agreements->count() }}</span>
-                            
-                            
-                            <a href="{{ route('admin.agreement.add') }}" class="btn btn-secondary btn-sm ms-5"><i class='bx bx-plus'></i>New
+
+
+                            <a href="{{ route('admin.agreement.add') }}" class="btn btn-secondary btn-sm ms-5"><i
+                                    class='bx bx-plus'></i>New
                                 Agreement
                             </a>
                         </div>
                         <div class=" ms-auto">
-                            
-                            <a href="{{ route('admin.payments') }}" class="btn btn-primary btn-sm "><i class='bx bx-arrow-back'></i>Payments
+
+                            <a href="{{ route('admin.payments') }}" class="btn btn-primary btn-sm "><i
+                                    class='bx bx-arrow-back'></i>Payments
                             </a>
                         </div>
 
@@ -97,54 +99,56 @@
                                     @foreach ($agreements as $key => $agreement)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td><div class="row">
+                                            <td>
+                                                <div class="row">
 
-                                                <div class="text-muted">{{$agreement->customer->phone}}</div> 
-                                               <h6>{{ $agreement->customer->name }}</h6> 
-                                            </div>
+                                                    <div class="text-muted">{{ $agreement->customer->phone }}</div>
+                                                    <h6>{{ $agreement->customer->name }}</h6>
+                                                </div>
                                             </td>
                                             <td><span class="text-success">{{ $agreement->transaction_id }}</span></td>
-                                            <td>{{$agreement->product->name}}</td>
+                                            <td>{{ $agreement->product->name }}</td>
                                             <td>GH₵ {{ number_format($agreement->principal, 2) }}</td>
                                             <td class="text-success">
-                                                GH₵ {{ number_format($agreement->down_payment,2) }}
+                                                GH₵ {{ number_format($agreement->down_payment, 2) }}
                                             </td>
                                             <td class="text-primary">
-                                                GH₵ {{ number_format($agreement->total_paid,2) }}
+                                                GH₵ {{ number_format($agreement->total_paid, 2) }}
                                             </td>
                                             <td class="text-danger">
-                                                GH₵ {{ number_format($agreement->balance,2) }}
+                                                GH₵ {{ number_format($agreement->balance, 2) }}
                                             </td>
                                             <td>
-                                               {{$agreement->employee->name}}
+                                                {{ $agreement->employee->name }}
                                             </td>
-                                            <td >
+                                            <td>
                                                 @if ($agreement->status == 'completed')
                                                     <span class="badge bg-success-transparent">
-                                                        {{$agreement->status}}
+                                                        {{ $agreement->status }}
                                                     </span>
                                                 @elseif($agreement->status == 'active')
                                                     <span class="badge bg-warning-transparent">
-                                                        {{$agreement->status}}
+                                                        {{ $agreement->status }}
                                                     </span>
                                                 @else
                                                     <span class="badge bg-danger-transparent">
-                                                        {{$agreement->status}}
+                                                        {{ $agreement->status }}
                                                     </span>
                                                 @endif
-                                              
+
                                             </td>
                                             <th>{{ \Carbon\Carbon::parse($agreement->start_date)->format('Y-m-d') }}</th>
                                             <th>
                                                 @if (is_numeric($agreement->countDown) && $agreement->countDown > 0)
-                                                    <span class="badge rounded-pill bg-warning">{{ number_format($agreement->countDown, 0) . ' days' }}</span>
+                                                    <span
+                                                        class="badge rounded-pill bg-warning">{{ number_format($agreement->countDown, 0) . ' days' }}</span>
                                                 @elseif ($agreement->countDown === 'stop')
                                                     <span class="badge rounded-pill bg-success text-white">Paid</span>
                                                 @else
                                                     <span class="badge rounded-pill bg-danger">Expired</span>
                                                 @endif
                                             </th>
-                                        
+
                                             <td><a href="{{ route('admin.agreement.edit', $agreement->id) }}"
                                                     class="btn btn-icon  rounded-pill btn-sm  btn-success-light"
                                                     data-bs-toggle="modal"
@@ -159,7 +163,9 @@
                                                 </a>
                                             </td>
                                             <!-- Include the modal with a unique ID for each agreement -->
-                                            @include('admin.hire_purchase.agreements.edit', ['agreement' => $agreement])
+                                            @include('admin.hire_purchase.agreements.edit', [
+                                                'agreement' => $agreement,
+                                            ])
                                         </tr>
                                     @endforeach
 
@@ -177,7 +183,7 @@
     <!-- Add Menu Modal -->
     {{-- @include('admin.hire_purchase.agreements.add') --}}
 
- 
+
 
 
 
@@ -218,44 +224,40 @@
     <script src="{{ asset('admin/assets/js/select2.min.js') }}"></script>
 
     <!-- Date & Time Picker JS -->
-    <script src="{{ asset('admin/assets/libs/flatpickr/flatpickr.min.js')}}"></script>
-    <script src="{{ asset('admin/assets/js/date&time_pickers.js')}}"></script>
-    
+    <script src="{{ asset('admin/assets/libs/flatpickr/flatpickr.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/js/date&time_pickers.js') }}"></script>
+
     <script>
-       
+        $(document).ready(function() {
+            // New Agreement Modal
+            $('#agreementNewModal').on('shown.bs.modal', function() {
+                $('.js-example-basic-single').select2({
+                    dropdownParent: $('#agreementNewModal')
+                });
+            });
 
+            // Edit Agreement Modal
+            // Use event delegation to listen for when any agreement edit modal is opened
+            $(document).on('shown.bs.modal', '[id^=agreementEditModal-]', function(event) {
+                // Get the button that triggered the modal
+                var button = $(event.relatedTarget); // Button that triggered the modal
 
-    $(document).ready(function() {
-        // New Agreement Modal
-        $('#agreementNewModal').on('shown.bs.modal', function() {
-            $('.js-example-basic-single').select2({
-                dropdownParent: $('#agreementNewModal')
+                // Extract the agreement ID and category ID from the button
+                var agreementId = button.data('id');
+                var categoryId = button.data('category-id');
+
+                // Populate the hidden input field with the agreement ID
+                $(this).find('#editAgreementId').val(agreementId);
+
+                // Set the selected category in the dropdown
+                $(this).find('#editCategorySelect').val(categoryId).trigger(
+                'change'); // Set category and trigger change
+
+                // Initialize Select2 for the category dropdown
+                $(this).find('#editCategorySelect').select2({
+                    dropdownParent: $(this) // Specify the parent for dropdown
+                });
             });
         });
-
-        // Edit Agreement Modal
-        // Use event delegation to listen for when any agreement edit modal is opened
-        $(document).on('shown.bs.modal', '[id^=agreementEditModal-]', function(event) {
-            // Get the button that triggered the modal
-            var button = $(event.relatedTarget); // Button that triggered the modal
-
-            // Extract the agreement ID and category ID from the button
-            var agreementId = button.data('id');
-            var categoryId = button.data('category-id');
-
-            // Populate the hidden input field with the agreement ID
-            $(this).find('#editAgreementId').val(agreementId);
-            
-            // Set the selected category in the dropdown
-            $(this).find('#editCategorySelect').val(categoryId).trigger('change'); // Set category and trigger change
-
-            // Initialize Select2 for the category dropdown
-            $(this).find('#editCategorySelect').select2({
-                dropdownParent: $(this) // Specify the parent for dropdown
-            });
-        });
-    });
-
-
     </script>
 @endpush

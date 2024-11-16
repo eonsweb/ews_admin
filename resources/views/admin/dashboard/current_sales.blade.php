@@ -1,4 +1,7 @@
 <div class="row">
+    <div class="h6">Current Month Sales Summary</div>
+</div>
+<div class="row">
     {{-- Monthly Sales Statistics ,total number of agreements --}}
     <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
         <div class="card custom-card">
@@ -95,7 +98,7 @@
                             <span class="fs-16">Payments</span>
                         </p>
                         <p class="mb-2 fs-12">
-                            <span class="fs-20 fw-semibold lh-1 vertical-bottom mb-0">GH₵ {{ number_format($currentMonthPayments->total_monthly_payments,2)  }}</span>
+                            <span class="fs-18 fw-semibold lh-1 vertical-bottom mb-0">GH₵ {{ number_format($currentMonthPayments->total_monthly_payments,2)  }}</span>
                             <span class="d-block fs-10 fw-semibold text-muted">THIS MONTH</span>
                         </p>
                         <a href="javascript:void(0);" class="fs-12 mb-0 text-primary">Show full stats<i
@@ -130,7 +133,7 @@
                         </p>
                         <p class="mb-2 fs-12">
                             <span
-                                class="fs-20 fw-semibold lh-1 vertical-bottom mb-0"> {{ number_format($currentMonthSales->total_profit, 2) }}</span>
+                                class="fs-20 fw-semibold lh-1 vertical-bottom mb-0">GH₵ {{ number_format($currentMonthSales->total_profit, 2) }}</span>
                             <span class="d-block fs-10 fw-semibold text-muted">THIS MONTH</span>
                         </p>
                         <a href="javascript:void(0);" class="fs-12 mb-0 text-primary">Show full stats<i

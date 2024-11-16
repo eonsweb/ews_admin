@@ -5,7 +5,7 @@
         <div class="card custom-card">
             <div class="card-header justify-content-between">
                 <div class="card-title">
-                    Top Selling Products for Current Month
+                    Top Selling Products
                 </div>
             </div>
             <div class="card-body">
@@ -15,7 +15,7 @@
                             <tr>
                                 <th style="width: 10%;">#</th>
                                 <th>Product Info</th>
-                                <th>Quantity</th>
+                                <th>Qty</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
@@ -40,17 +40,18 @@
         <div class="card custom-card">
             <div class="card-header justify-content-between">
                 <div class="card-title">
-                    Top Selling Categories for Current's Month 
+                    Top Selling Categories
+                    
                 </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered text-nowrap table-striped w-100">
+                    <table id="datatable-basic" class="table table-bordered text-nowrap table-striped w-100">
                         <thead>
                             <tr>
                                 <th style="width: 10%;">#</th>
                                 <th>Category Name</th>
-                                <th>Quantity</th>
+                                <th>Qty</th>
                                 <th>Total</th>
                             </tr>
                         </thead>

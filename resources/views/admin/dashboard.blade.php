@@ -18,10 +18,27 @@
         
         
         <!-- Start::row-1 -->
-        @include('admin.dashboard.sales')
+        @include('admin.dashboard.current_sales')
         <!--End::row-1 -->
-        <!-- Start::row-1 -->
 
+        <!-- Start::row-1 -->
+        <div class="row">
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xl-6">
+                @include('admin.dashboard.previous')
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xl-6">
+                @include('admin.dashboard.metrics_summary')
+            </div>
+        </div>
+        
+        <!--End::row-1 -->
+
+        {{-- Near Completion Agreements --}}
+        <div class="row">
+            @include('admin.dashboard.near_completion')
+        </div>
+
+        <!-- Start::row-1 -->
         @include('admin.dashboard.top_selling_product')
         <!--End::row-1 -->
        

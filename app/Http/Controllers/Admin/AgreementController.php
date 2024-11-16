@@ -129,7 +129,7 @@ class AgreementController extends Controller
                     $agreement->duration = $duration;
                     $agreement->end_date = $endDate;
 
-                    if ($agreement->principal <= $agreement->down_payment) {
+                    if (($agreement->principal - $agreement->total_paid) <= 0) {
                         $agreement->status = 'completed';
                     } else {
                         $agreement->status = 'active';
@@ -230,6 +230,13 @@ class AgreementController extends Controller
             $agreement->quantity = $request->quantity;
             $agreement->principal = $request->quantity * $product->sale_price;
             $agreement->duration = $request->duration;
+
+            if (($agreement->principal - $agreement->total_paid) <= 0 ) {
+                $agreement->status = 'completed';
+            } else {
+                $agreement->status = 'active';
+            }
+
             $agreement->start_date = Carbon::parse($request->start_date);
             $agreement->created_at = Carbon::parse($request->start_date);
             $agreement->updated_at = now();
@@ -256,6 +263,7 @@ class AgreementController extends Controller
         // if ($agreement->agreements()->count() > 0) {
         //     return redirect()->back()->with('error', 'Agreement cannot be deleted because it has agreements.');
         // }
+        
 
         // Delete the agreement
         $agreement->delete();

@@ -46,7 +46,8 @@
                 <!-- Start::slide -->
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
-                        <i class='bx bx-money-withdraw side-menu__icon'></i>
+                        {{-- <i class='bx bx-money-withdraw side-menu__icon'></i> --}}
+                        <i class='bx bxs-bank side-menu__icon'></i>
                         
                         <span class="side-menu__label">Hire Purchase</span>
 
@@ -66,22 +67,7 @@
                         </li>
                     </ul>
                 </li>
-                <!-- Start::slide -->
-                <li class="slide has-sub">
-                    <a href="javascript:void(0);" class="side-menu__item">
-                        <i class='bx bxs-bank side-menu__icon'></i>
-                        <span class="side-menu__label">SUSU Collection</span>
-                        
-                        <i class="fe fe-chevron-right side-menu__angle"></i></a>
-                    <ul class="slide-menu child2">
-                        <li class="slide">
-                            <a href="mail.html" class="side-menu__item">Susu Agreement</a>
-                        </li>
-                        <li class="slide">
-                            <a href="mail-settings.html" class="side-menu__item">Deposit</a>
-                        </li>
-                    </ul>
-                </li>
+                
                 <li class="slide">
                     <a href="{{route('admin.employees')}}"
                         class="side-menu__item {{ Route::currentRouteName() === 'admin.employees' ? 'active' : ''}}">
@@ -108,6 +94,14 @@
                 </li>
                 
                 <li class="slide">
+                    <a href="#"
+                        class="side-menu__item">
+                        <i class="bx bx-list-check side-menu__icon"></i>
+                        <span class="side-menu__label">Inventory</span>
+                    </a>
+                </li>
+                
+                <li class="slide">
                     <a href="{{route('admin.products')}}"
                         class="side-menu__item">
                         <i class="bx bxl-product-hunt side-menu__icon"></i>
@@ -117,12 +111,95 @@
                 
                 <!-- End::slide -->
 
+                <!-- Start::slide__category -->
+                <li class="slide__category"><span class="category-name">Reporting &amp; Analytics</span></li>
+                <!-- End::slide__category -->
 
+                <!-- Start::slide -->
+                <li class="slide has-sub">
+                    <a href="javascript:void(0);" class="side-menu__item">
+                        <i class="bx bxs-report side-menu__icon"></i>
+                        <span class="side-menu__label">Report<span class="badge bg-success-transparent ms-2">3</span></span>
+                        <i class="fe fe-chevron-right side-menu__angle"></i>
+                    </a>
+                    <ul class="slide-menu child1">
+                        <li class="slide side-menu__label1">
+                            <a href="javascript:void(0)">Payment Reports</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{{route('admin.payment_report')}}" class="side-menu__item">Payment Reports</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{{route('admin.agreement_report')}}" class="side-menu__item">Agreement Reports</a>
+                        </li>
+                       
+                        
+                    </ul>
+                </li>
+                <!-- End::slide -->
+                <!-- Start::slide__category -->
+                <li class="slide__category"><span class="category-name">Settings</span></li>
+                <!-- End::slide__category -->
+
+                <!-- Setting Start::slide -->
+                <li class="slide has-sub">
+                    <a href="javascript:void(0);" class="side-menu__item">
+                        <i class="bx bx-layer side-menu__icon"></i>
+                        <span class="side-menu__label">Settings</span>
+                        <i class="fe fe-chevron-right side-menu__angle"></i>
+                    </a>
+                    <ul class="slide-menu child1">
+                        <li class="slide side-menu__label1">
+                            <a href="javascript:void(0)">Settings</a>
+                        </li>
+                        <li class="slide has-sub">
+                            <a href="javascript:void(0);" class="side-menu__item">Financial Setting
+                                <i class="fe fe-chevron-right side-menu__angle"></i></a>
+                            <ul class="slide-menu child2">
+                                <li class="slide">
+                                    <a href="javascript:void(0)" class="side-menu__item">Currency</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="javascript:void(0)" class="side-menu__item">Tax</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="javascript:void(0)" class="side-menu__item">Monthly Targets</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="javascript:void(0)" class="side-menu__item">Expenses</a>
+                                </li>
+                            </ul>
+                        <li class="slide has-sub">
+                            <a href="javascript:void(0);" class="side-menu__item">Security
+                                <i class="fe fe-chevron-right side-menu__angle"></i></a>
+                            <ul class="slide-menu child2">
+                                <li class="slide">
+                                    <a href="javascript:void(0)" class="side-menu__item">Change Password</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="javascript:void(0)" class="side-menu__item">Roles</a>
+                                </li>
+                                <li class="slide">
+                                    <a href="javascript:void(0)" class="side-menu__item">Permission</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="slide">
+                            <a href="javascript:void(0)" class="side-menu__item">Notifications</a>
+                        </li>
+                        <li class="slide">
+                            <a href="javascript:void(0)" class="side-menu__item">Audit Logs</a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- End::slide -->
 
 
 
 
             </ul>
+
+            
             <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"
                     width="24" height="24" viewBox="0 0 24 24">
                     <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path>

@@ -60,6 +60,20 @@ class Agreement extends Model
         return $this->belongsTo(Product::class);
     }
 
+    // Check if the down payment meets or exceeds the principal
+    // public function updateStatus()
+    // {
+    //     // Check if the down payment meets or exceeds the principal
+    //     if ($this->principal - $this->down_payment <= 0) {
+    //         $this->status = 'completed';
+    //     } else {
+    //         $this->status = 'active';
+    //     }
+
+    //     // Save the updated status to the database
+    //     $this->save();
+    // }
+
     public static function currentMonthSales()
     {
         return self::selectRaw(
@@ -74,92 +88,104 @@ class Agreement extends Model
             ->first(); // Get the first result since we only need current month data
     }
 
+    public static function previousMonthSales()
+    {
+        // Previous Month Sales Data
+        return self::selectRaw(
+            'COUNT(*) as previous_month_number_of_sales,
+        SUM(principal) as previous_month_total_sales,
+        SUM(total_paid) as payment_recieved,
+        SUM((quantity * products.sale_price) - (quantity * products.stock_price)) as previous_month_profit
+        ',
+        )
+            ->whereYear('start_date', Carbon::now()->year) // Corrected to start_date for consistency
+            ->whereMonth('start_date', Carbon::now()->subMonth()->month)
+            ->join('products', 'agreements.product_id', '=', 'products.id') // Join for previous month
+            ->first();
+    }
+
     public static function compareMonthlySales()
-{
-    // Current Month Sales Data
-    $currentMonth = self::selectRaw('
+    {
+        // Current Month Sales Data
+        $currentMonth = self::selectRaw(
+            '
         COUNT(*) as current_month_number_of_sales,
         SUM(principal) as current_month_total_sales,
         SUM((quantity * products.sale_price) - (quantity * products.stock_price)) as current_month_profit
-    ')
-    ->whereYear('start_date', Carbon::now()->year)
-    ->whereMonth('start_date', Carbon::now()->month)
-    ->join('products', 'agreements.product_id', '=', 'products.id') // Join for current month
-    ->first();
+    ',
+        )
+            ->whereYear('start_date', Carbon::now()->year)
+            ->whereMonth('start_date', Carbon::now()->month)
+            ->join('products', 'agreements.product_id', '=', 'products.id') // Join for current month
+            ->first();
 
-    // Previous Month Sales Data
-    $previousMonth = self::selectRaw('
+        // Previous Month Sales Data
+        $previousMonth = self::selectRaw(
+            '
         COUNT(*) as previous_month_number_of_sales,
         SUM(principal) as previous_month_total_sales,
         SUM((quantity * products.sale_price) - (quantity * products.stock_price)) as previous_month_profit
-    ')
-    ->whereYear('start_date', Carbon::now()->year) // Corrected to start_date for consistency
-    ->whereMonth('start_date', Carbon::now()->subMonth()->month)
-    ->join('products', 'agreements.product_id', '=', 'products.id') // Join for previous month
-    ->first();
+    ',
+        )
+            ->whereYear('start_date', Carbon::now()->year) // Corrected to start_date for consistency
+            ->whereMonth('start_date', Carbon::now()->subMonth()->month)
+            ->join('products', 'agreements.product_id', '=', 'products.id') // Join for previous month
+            ->first();
 
-    // Monthly Total Number of Sales
-    $currentMonthNumberOfSales = $currentMonth->current_month_number_of_sales ?? 0;
-    $previousMonthNumberOfSales = $previousMonth->previous_month_number_of_sales ?? 0;
+        // Monthly Total Number of Sales
+        $currentMonthNumberOfSales = $currentMonth->current_month_number_of_sales ?? 0;
+        $previousMonthNumberOfSales = $previousMonth->previous_month_number_of_sales ?? 0;
 
-    // Monthly Total Sales (Purchase)
-    $currentMonthTotalSales = $currentMonth->current_month_total_sales ?? 0;
-    $previousMonthTotalSales = $previousMonth->previous_month_total_sales ?? 0;
+        // Monthly Total Sales (Purchase)
+        $currentMonthTotalSales = $currentMonth->current_month_total_sales ?? 0;
+        $previousMonthTotalSales = $previousMonth->previous_month_total_sales ?? 0;
 
-    // Monthly Total Profit
-    $currentMonthProfit = $currentMonth->current_month_profit ?? 0;
-    $previousMonthProfit = $previousMonth->previous_month_profit ?? 0;
+        // Monthly Total Profit
+        $currentMonthProfit = $currentMonth->current_month_profit ?? 0;
+        $previousMonthProfit = $previousMonth->previous_month_profit ?? 0;
 
-    // Calculate Differences
-    $differenceMonthlyNumberOfSales = $currentMonthNumberOfSales - $previousMonthNumberOfSales;
-    $differenceInMonthlySales = $currentMonthTotalSales - $previousMonthTotalSales;
-    $differenceInMonthlyProfit = $currentMonthProfit - $previousMonthProfit;
+        // Calculate Differences
+        $differenceMonthlyNumberOfSales = $currentMonthNumberOfSales - $previousMonthNumberOfSales;
+        $differenceInMonthlySales = $currentMonthTotalSales - $previousMonthTotalSales;
+        $differenceInMonthlyProfit = $currentMonthProfit - $previousMonthProfit;
 
-    // Calculate percentage changes
-    $percentageMonthlyNumberOfSales = ($previousMonthNumberOfSales > 0)
-        ? ($differenceMonthlyNumberOfSales / $previousMonthNumberOfSales) * 100
-        : 0;
+        // Calculate percentage changes
+        $percentageMonthlyNumberOfSales = $previousMonthNumberOfSales > 0 ? ($differenceMonthlyNumberOfSales / $previousMonthNumberOfSales) * 100 : 0;
 
-    $percentageInMonthlySales = ($previousMonthTotalSales > 0)
-        ? ($differenceInMonthlySales / $previousMonthTotalSales) * 100
-        : 0;
+        $percentageInMonthlySales = $previousMonthTotalSales > 0 ? ($differenceInMonthlySales / $previousMonthTotalSales) * 100 : 0;
 
-    $percentageInMonthlyProfit = ($previousMonthProfit > 0)
-        ? ($differenceInMonthlyProfit / $previousMonthProfit) * 100
-        : 0;
+        $percentageInMonthlyProfit = $previousMonthProfit > 0 ? ($differenceInMonthlyProfit / $previousMonthProfit) * 100 : 0;
 
-    $result = [
-        'current_month_sales' => [
-            'number_of_sales' => $currentMonthNumberOfSales,
-            'total_sales' => $currentMonthTotalSales,
-            'profit' => $currentMonthProfit,
-        ],
-        'previous_month_sales' => [
-            'number_of_sales' => $previousMonthNumberOfSales,
-            'total_sales' => $previousMonthTotalSales,
-            'profit' => $previousMonthProfit,
-        ],
-        'sales_comparison' => [
-            'number_of_sales' => [
-                'absolute' => abs($differenceMonthlyNumberOfSales),
-                'percentage' => $percentageMonthlyNumberOfSales,
-                'status' => $differenceMonthlyNumberOfSales > 0 ? 'increase' : ($differenceMonthlyNumberOfSales < 0 ? 'decrease' : 'no change'),
+        $result = [
+            'current_month_sales' => [
+                'number_of_sales' => $currentMonthNumberOfSales,
+                'total_sales' => $currentMonthTotalSales,
+                'profit' => $currentMonthProfit,
             ],
-            'total_sales' => [
-                'absolute' => abs($differenceInMonthlySales),
-                'percentage' => $percentageInMonthlySales,
-                'status' => $differenceInMonthlySales > 0 ? 'increase' : ($differenceInMonthlySales < 0 ? 'decrease' : 'no change'),
+            'previous_month_sales' => [
+                'number_of_sales' => $previousMonthNumberOfSales,
+                'total_sales' => $previousMonthTotalSales,
+                'profit' => $previousMonthProfit,
             ],
-            'profit' => [
-                'absolute' => abs($differenceInMonthlyProfit),
-                'percentage' => $percentageInMonthlyProfit,
-                'status' => $differenceInMonthlyProfit > 0 ? 'increase' : ($differenceInMonthlyProfit < 0 ? 'decrease' : 'no change'),
+            'sales_comparison' => [
+                'number_of_sales' => [
+                    'absolute' => abs($differenceMonthlyNumberOfSales),
+                    'percentage' => $percentageMonthlyNumberOfSales,
+                    'status' => $differenceMonthlyNumberOfSales > 0 ? 'increase' : ($differenceMonthlyNumberOfSales < 0 ? 'decrease' : 'no change'),
+                ],
+                'total_sales' => [
+                    'absolute' => abs($differenceInMonthlySales),
+                    'percentage' => $percentageInMonthlySales,
+                    'status' => $differenceInMonthlySales > 0 ? 'increase' : ($differenceInMonthlySales < 0 ? 'decrease' : 'no change'),
+                ],
+                'profit' => [
+                    'absolute' => abs($differenceInMonthlyProfit),
+                    'percentage' => $percentageInMonthlyProfit,
+                    'status' => $differenceInMonthlyProfit > 0 ? 'increase' : ($differenceInMonthlyProfit < 0 ? 'decrease' : 'no change'),
+                ],
             ],
-        ],
-    ];
+        ];
 
-    return $result; // Returns an associative array with all the results
-}
-
-    
+        return $result; // Returns an associative array with all the results
+    }
 }

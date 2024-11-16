@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\AgreementController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ReportController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -57,6 +58,7 @@ Route::middleware('admin')
 
         Route::controller(DashboardController::class)->group(function(){
             Route::get('/dashboard','AdminDashboard')->name('admin.dashboard');
+            Route::get('/dashboard/filter','Filter')->name('dashboard.filter');
         });
 
         Route::controller(CategoryController::class)->group(function () {
@@ -128,7 +130,10 @@ Route::middleware('admin')
             Route::get('/payment/customer-transactions/{customerId}', 'GetAgreements')->name('admin.agreement.customer-transactions');
         });
 
-        
+        Route::controller(ReportController::class)->group(function(){
+            Route::get('/payment_report','PaymentReport')->name('admin.payment_report');
+            Route::get('/agreement_report','generateMonthlyAgreementReport')->name('admin.agreement_report');
+        });
     });
 
     // Route::get('/dashboard', [AdminUserController::class, 'AdminDashboard'])->name('admin.dashboard');

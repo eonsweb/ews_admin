@@ -99,7 +99,7 @@
                                             </td>
                                             <th>{{ \Carbon\Carbon::parse($payment->created_at)->format('Y-m-d') }}</th>
 
-                                            <td><a href="{{ route('admin.payment.edit', $payment->id) }}"
+                                            <td><a href="javascript:void(0);"
                                                     class="btn btn-icon rounded-pill btn-sm  btn-success"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#paymentEditModal-{{ $payment->id }}"
@@ -113,7 +113,7 @@
                                                 </a>
                                             </td>
                                             <!-- Include the modal with a unique ID for each payment -->
-                                            {{-- @include('admin.hire_purchase.payment.edit', ['payment' => $payment]) --}}
+                                            @include('admin.hire_purchase.payments.edit_modal', ['payment' => $payment])
                                         </tr>
                                     @endforeach
 
@@ -175,40 +175,80 @@
     <script src="{{ asset('admin/assets/libs/flatpickr/flatpickr.min.js')}}"></script>
     <script src="{{ asset('admin/assets/js/date&time_pickers.js')}}"></script>
     
+   
     <script>
        
 
+      
 
-    $(document).ready(function() {
-        // New Payment Modal
-        $('#paymentNewModal').on('shown.bs.modal', function() {
-            $('.js-example-basic-single').select2({
-                dropdownParent: $('#paymentNewModal')
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('[data-bs-toggle="modal"]').forEach(button => {
+                button.addEventListener('click', async function() {
+                    const paymentId = this.getAttribute('data-id');
+                    const paymentModalElement = document.querySelector(`#paymentEditModal-${paymentId}`);
+                    console.log(paymentModalElement);
+    
+                    try {
+                        const response = await fetch(`/admin/payment/${paymentId}/edit`);
+    
+                        if (!response.ok) throw new Error('Network response was not ok');
+    
+                        const data = await response.json();
+    
+                        // Populate modal fields with response data
+                        const agreementSelect = paymentModalElement.querySelector('#agreement_id');
+                        agreementSelect.innerHTML = ''; // Clear existing options
+                        $(agreementSelect).select2();  // Initialize Select2 for this select element
+
+                        const employeeSelect = paymentModalElement.querySelector('#employee_id');
+                        employeeSelect.innerHTML = ''; // Clear existing options
+                        $(employeeSelect).select2();// Initialize Select2 for this select element
+    
+                        const agreements = data.agreements;
+                        const employees = data.employees;
+                        const payment = data.payment;
+    
+                        console.log(payment.agreement_id);
+                        console.log(agreements);
+    
+                        if (Array.isArray(agreements) && agreements.length > 0) {
+                            agreements.forEach(agreement => {
+                                const option = new Option(
+                                    `${agreement.transaction_id} - ${agreement.product_name}`, // Display text
+                                    agreement.id // Value
+                                ); // Moved the closing parenthesis here
+                                if (agreement.id == payment.agreement_id) {
+                                    option.selected = true; // Set the selected option
+                                }
+                                agreementSelect.appendChild(option); // Append to select
+                            });
+                        } else {
+                            console.log('No agreements found for the selected customer.');
+                            agreementSelect.innerHTML = '<option>No agreements available</option>';
+                        }
+    
+                        if (Array.isArray(employees) && employees.length > 0) {
+                            employees.forEach(employee => {
+                                const option = new Option(
+                                    `${employee.name}`, // Display text
+                                    employee.id // Value
+                                ); // Moved the closing parenthesis here
+                                if (employee.id == payment.employee_id) {
+                                    option.selected = true; // Set the selected option
+                                }
+                                employeeSelect.appendChild(option); // Append to select
+                            });
+                        } else {
+                            console.log('No employees found for the selected customer.');
+                            employeeSelect.innerHTML = '<option>No employees available</option>'; // Corrected to employeeSelect
+                        }
+    
+                    } catch (error) {
+                        console.error('Error loading payment data:', error);
+                    }
+                });
             });
         });
-
-        // Edit Payment Modal
-        // Use event delegation to listen for when any payment edit modal is opened
-        $(document).on('shown.bs.modal', '[id^=paymentEditModal-]', function(event) {
-            // Get the button that triggered the modal
-            var button = $(event.relatedTarget); // Button that triggered the modal
-
-            // Extract the payment ID and category ID from the button
-            var paymentId = button.data('id');
-            var categoryId = button.data('category-id');
-
-            // Populate the hidden input field with the payment ID
-            $(this).find('#editPaymentId').val(paymentId);
-            
-            // Set the selected category in the dropdown
-            $(this).find('#editCategorySelect').val(categoryId).trigger('change'); // Set category and trigger change
-
-            // Initialize Select2 for the category dropdown
-            $(this).find('#editCategorySelect').select2({
-                dropdownParent: $(this) // Specify the parent for dropdown
-            });
-        });
-    });
-
     </script>
+    
 @endpush
